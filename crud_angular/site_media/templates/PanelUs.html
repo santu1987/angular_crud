@@ -1,0 +1,23 @@
+<h1>{{titulo_sistema}}</h1>
+<div class="cuadro_div">
+	<form  class="form-horizontal form_cuadro" ng-submit="guardarPersona()">
+		<fieldset><legend><h1>{{sub_titulo}}</h1></legend></fieldset>
+		<div class="form-group">
+			<div class="col-lg-12">
+				<input type="text" name="nombre_persona" id="nombre_persona" ng-model="persona.nombres" class="form-control" placeholder="Ingrese nombre de usuario">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-lg-12">
+				<input type="text" name="cedula_persona" id="cedula_persona" ng-model="persona.cedula" class="form-control" placeholder="Ingrese su cedula">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-lg-12">
+				<input type="text" name="id_persona" id="id_persona" ng-model="persona.id" class="form-control">
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary boton">Guardar</button>
+	</form>	
+</div>
+	<div ng-hide="!mensaje.opcion" class="alert {{tipo_alerta}} mensajes animated"><i class="{{mensaje.imagen}}"></i> {{mensaje.resultado}}{{errores}}</div>
