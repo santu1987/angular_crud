@@ -15,11 +15,13 @@ class usuarioModel extends conex{
 			}
 			$this->sql = "INSERT INTO usuarios2
 									(
-										cedulaS,
-										nombres
+										cedula,
+										nombres,
+										estado
 									)
 						  VALUES(	'".$cedula."',
-						  			'".$nombres."')";	
+						  			'".$nombres."',
+						  			'".$estado."');";	
 			$this->result = $this->enviarQuery($this->sql);
 			return $this->result; 	
 		}

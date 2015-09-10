@@ -20,6 +20,7 @@ if($post)
 			{
 				$mensaje["mensaje"] = "Error: No se realizó el registro";
 			}
+			//$mensaje[0] = $recordset;
 			die(json_encode($mensaje));	
 			break;
 		default:
@@ -35,8 +36,11 @@ function helper_userdata($data){
 	//--
 	$user_data['nombres'] = pg_escape_string($data->nombres);
 	$user_data['cedula'] = pg_escape_string($data->cedula);
-	$user_data['id'] = pg_escape_string($data->id);
+	if($data->id!=""){
+		$user_data['id'] = pg_escape_string($data->id);
+	}
 	$user_data['accion'] = pg_escape_string($data->accion);
+	$user_data['estado'] = $data->estado;
 	//--
 	return $user_data;
 }
