@@ -14,7 +14,6 @@ if($post)
 	switch ($post["accion"]) {
 		case 'consultar':
 			$recordset = consultar_estado($post);
-			$mensaje[0] = $recordset;
 			die(json_encode($recordset));	
 			break;
 		default:
@@ -37,6 +36,10 @@ function consultar_estado(){
 	$obj = new estadoModel();
 	$rs = $obj->consult_estado();
 	//--Recorro el arreglo de estado para transformarlo en una cadena json...
+	foreach ($rs as $campo) {
+		$estados[] = array('id'=>$campo[0],'name'=>$campo[1]);
+	}
+	//--
 	/*for($i=0;$i<=count($rs);$i++) {
 		$cadena_json["id"][$i] = $campo[$i][1];
 		$cadena_json["name"][$i] = $campo[$i][2];
@@ -51,7 +54,7 @@ function consultar_estado(){
 						 );
 	}*/
  	//--
-	return $rs;
+	return $estados;
 }
 //--
 ?>

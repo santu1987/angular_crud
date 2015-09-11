@@ -17,11 +17,15 @@ class usuarioModel extends conex{
 									(
 										cedula,
 										nombres,
-										estado
+										estado,
+										municipio,
+										parroquia
 									)
 						  VALUES(	'".$cedula."',
 						  			'".$nombres."',
-						  			'".$estado."');";	
+						  			'".$estado."',
+						  			'".$municipio."',
+						  			'".$parroquia."');";	
 			$this->result = $this->enviarQuery($this->sql);
 			return $this->result; 	
 		}

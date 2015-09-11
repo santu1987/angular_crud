@@ -2,8 +2,14 @@ angular.module("AngularApp")
 	.controller("MainController",function($scope,$http){
 		$scope.persona = {};
 		$scope.estados = [];
+		$scope.municipios = [];
+		$scope.parroquias = [];
+		$scope.super_json=[];
 		$scope.titulo_sistema = "App desarrollada en Angular";
 		$scope.sub_titulo = "Cargando Personas";
+		$scope.esta = { 'id':'', 'name':''};
+		$scope.mun = { 'id':'','name':''};
+		$scope.par = {'id':'','name':''};
 		//--
 		$scope.mensaje = {
 							'opcion':'',
@@ -12,45 +18,80 @@ angular.module("AngularApp")
 							'imagen':''
 						};
 		$scope.tipo_alerta = '';
-		var equis = "Herah";
-
+		//-- Método al hacer change en estado
+		$scope.change_estados = function(){
+			$scope.cargar_municipios();
+		}
+		//-- Método al hacer change en municipios
+		$scope.change_municipios = function(){
+			$scope.cargar_parroquias();
+		}
+		//--Método para cargar estados
 		$scope.cargar_estados = function(){
-			/*$scope.accion = "consultar";
+			$scope.accion = "consultar";
 			$http.post("./modulos/estados/estadosController.php",
-				{
-					'accion':$scope.accion	
-				}).success(function(data, status, headers, config){
-					console.log(data);
+			{
+				'accion':$scope.accion	
+			}).success(function(data, status, headers, config){
 					$scope.estados = data;
+					$scope.esta = "";
 					//--
-					console.log($scope.estados);
+					//console.log($scope.estados);
 			}).error(function(data,status){
 				$scope.mensaje_error();
-			});*/
-		$scope.estados = {
-						opciones:[	
-									{id:"4", name: "Caracas"},
-									{id:"3", name: "Here to stay"},
-									{id:"2", name: "High way to hell"}
-						]
-				};
-		$scope.esta = "";
+			});
+
+		}
+		//-- Método para cargar municipios
+		$scope.cargar_municipios = function(){
+			$scope.accion = "consultar";
+			$http.post("./modulos/municipios/municipiosController.php",
+			{
+				'accion':$scope.accion,
+				'estado':$scope.esta.id
+			}).success(function(data,status,headers,config){
+					$scope.municipios =  data;
+					//--
+					//console.log($scope.municipios);
+				}).error(function(data,status){
+					$scope.mensaje_error();
+				});
+		}
+		//-- Método para cargar parroquias
+		$scope.cargar_parroquias = function(){
+			$scope.accion = "consultar";
+			$http.post("./modulos/parroquias/parroquiasController.php",
+			{
+				'accion':$scope.accion,
+				'municipio':$scope.mun.id 	
+			}).success(function(data,status,headers,config){
+				//console.log(data);
+				$scope.parroquias = data;
+				console.log($scope.parroquias);
+			}).error(function(data,status){
+				$scope.mensaje_error();
+			});
 		}
 		//------------------------------------------------------------------------------------------------
 		//--Cargo los estados
 		$scope.cargar_estados();
+		//--Cargo los municipios
+		$scope.cargar_municipios();
+		//--Cargo las parroquias
+		$scope.cargar_parroquias();
 		//------------------------------------------------------------------------------------------------
 		//--Metodo para realizar el registro en la bd...
 		$scope.guardarPersona = function(){
 			$scope.accion = "guardar";
-			$scope.estado = '1';
 			$http.post("./modulos/usuarios/usuariosController.php",
 				{
 					'nombres' : $scope.persona.nombres,
 					'cedula': $scope.persona.cedula,
 					'id':$scope.persona.id,
 					'accion': $scope.accion,
-					'estado':$scope.esta.id
+					'estado':$scope.esta.id,
+					'municipio':$scope.mun.id,
+					'parroquia':$scope.par.id
 				}).success(function(data, status, headers, config){
 					
 					console.log($scope.esta.id);
@@ -82,6 +123,8 @@ angular.module("AngularApp")
 			$scope.mensaje.opcion = false;
 			$scope.persona = {};
 			$scope.esta = "";
+			$scope.mun = "";
+			$scope.par = "";
 		}
 
 		$scope.mensaje_error = function(){

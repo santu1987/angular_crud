@@ -41,6 +41,8 @@ function helper_userdata($data){
 	}
 	$user_data['accion'] = pg_escape_string($data->accion);
 	$user_data['estado'] = $data->estado;
+	$user_data['municipio'] = $data->municipio;
+	$user_data['parroquia'] = $data->parroquia;
 	//--
 	return $user_data;
 }
