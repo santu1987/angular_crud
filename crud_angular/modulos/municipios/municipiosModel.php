@@ -12,7 +12,7 @@ class municipiosModel extends conex{
 			$$campo = $valor;
 		}	
 		//--
-		$where = "WHERE 1=1 ";	
+		$where = " WHERE 1=1 ";	
 		if($estado!=""){
 			$where.=" AND b.codigoestado='".$estado."'";
 		}	

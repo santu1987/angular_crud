@@ -1,23 +1,37 @@
 angular.module("AngularApp")
-	/*.factory("mensajesFactory",function(){
-		mensaje = {
-					'opcion':'',
-					'resultado':'',
-					'errores':'',
-					'imagen':''
-				   };
-		//--Mensaje de error
-		mensaje_error : function(mensaje){
-			mensaje.resultado = '';
-			mensaje.errores = data['mensaje'];
-			mensaje.imagen = "fa fa-exclamation-circle";
-			tipo_alerta = 'alert-danger';
-			console.log(data);
+	.factory("ubicacionFactory",['$http', function($http){
+	/*	return{
+			cargar_estados : function(){
+				accion = "consultar";
+				$http.post("./modulos/estados/estadosController.php",
+				{
+				  	'accion':accion	
+				}).success(function(data, status, headers, config){
+					estados = data;
+				}).error(function(error,status){
+					estados = "error";	
+				});
+			}
+		}*/
+		var id_estado ='';
+		var id_municipio ='';
+		return{
+			valor_id_estado : function (id){
+				if(id!="")
+					id_estado = id;
+			},
+			valor_id_municipio : function (id){
+				if(id!="")
+					id_municipio = id;
+			},
+			cargar_estados : function (callback){
+				$http.post("./modulos/estados/estadosController.php",{ accion:'consultar' }).success(callback);		
+			},
+			cargar_municipios : function (callback){
+				$http.post("./modulos/municipios/municipiosController.php", { accion:'consultar', estado: id_estado}).success(callback);
+			},
+			cargar_parroquias : function(callback){
+				$http.post("./modulos/parroquias/parroquiasController.php",{ accion:'consultar', municipio: id_municipio }).success(callback);
+			}
 		}
-		//--
-		conf_mensaje_si : function(mensaje){
-			mensaje.imagen = "fa fa-check";
-			mensaje.tipo_alerta = 'alert-success';
-		}
-		return mensaje;
-	})*/
+	}]);

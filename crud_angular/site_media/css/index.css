@@ -258,7 +258,8 @@ footer
 @media (min-width: 1800px){
   .cuadro_div{
     width:25%;
-    margin-left: 32%;
+    /*margin-left: 32%;*/
+    margin-left: 36%;
   } 
 }
 /*-------------------------------*/

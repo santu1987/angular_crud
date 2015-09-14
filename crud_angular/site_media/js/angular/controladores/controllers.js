@@ -1,5 +1,5 @@
 angular.module("AngularApp")
-	.controller("MainController",function($scope,$http){
+	.controller("MainController",function($scope,$http,ubicacionFactory){
 		$scope.persona = {};
 		$scope.estados = [];
 		$scope.municipios = [];
@@ -18,32 +18,44 @@ angular.module("AngularApp")
 							'imagen':''
 						};
 		$scope.tipo_alerta = '';
+		$scope.respuesta = '';
 		//-- Método al hacer change en estado
 		$scope.change_estados = function(){
-			$scope.cargar_municipios();
+			$scope.carga_de_municipios();
 		}
+		
 		//-- Método al hacer change en municipios
 		$scope.change_municipios = function(){
-			$scope.cargar_parroquias();
+			$scope.carga_de_parroquias();
 		}
-		//--Método para cargar estados
-		$scope.cargar_estados = function(){
-			$scope.accion = "consultar";
-			$http.post("./modulos/estados/estadosController.php",
-			{
-				'accion':$scope.accion	
-			}).success(function(data, status, headers, config){
-					$scope.estados = data;
-					$scope.esta = "";
-					//--
-					//console.log($scope.estados);
-			}).error(function(data,status){
-				$scope.mensaje_error();
+		
+		//--LLama al factory de cargar estados
+		$scope.carga_de_estados = function (){
+			ubicacionFactory.cargar_estados(function(data){
+				$scope.estados = data;	
 			});
-
 		}
+
+		//--Llama al factory que carga municipios
+		$scope.carga_de_municipios = function (){
+			ubicacionFactory.valor_id_estado($scope.esta.id);
+			ubicacionFactory.cargar_municipios(function(data){
+				$scope.municipios = data;
+			});
+		}
+		
+		//--Llama al factory que carga parroquias
+		$scope.carga_de_parroquias = function (){
+			if($scope.mun){
+				ubicacionFactory.valor_id_municipio($scope.mun.id);
+			}
+			ubicacionFactory.cargar_parroquias(function(data){
+				$scope.parroquias = data;
+			});
+		}	
+
 		//-- Método para cargar municipios
-		$scope.cargar_municipios = function(){
+		/*/$scope.cargar_municipios = function(){
 			$scope.accion = "consultar";
 			$http.post("./modulos/municipios/municipiosController.php",
 			{
@@ -56,9 +68,9 @@ angular.module("AngularApp")
 				}).error(function(data,status){
 					$scope.mensaje_error();
 				});
-		}
+		}*/
 		//-- Método para cargar parroquias
-		$scope.cargar_parroquias = function(){
+		/*$scope.cargar_parroquias = function(){
 			$scope.accion = "consultar";
 			$http.post("./modulos/parroquias/parroquiasController.php",
 			{
@@ -71,14 +83,14 @@ angular.module("AngularApp")
 			}).error(function(data,status){
 				$scope.mensaje_error();
 			});
-		}
+		}*/
 		//------------------------------------------------------------------------------------------------
 		//--Cargo los estados
-		$scope.cargar_estados();
+		$scope.carga_de_estados();
 		//--Cargo los municipios
-		$scope.cargar_municipios();
+		$scope.carga_de_municipios();
 		//--Cargo las parroquias
-		$scope.cargar_parroquias();
+		$scope.carga_de_parroquias();
 		//------------------------------------------------------------------------------------------------
 		//--Metodo para realizar el registro en la bd...
 		$scope.guardarPersona = function(){
