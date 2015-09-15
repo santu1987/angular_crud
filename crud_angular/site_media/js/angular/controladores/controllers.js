@@ -1,5 +1,5 @@
 angular.module("AngularApp")
-	.controller("MainController",function($scope,$http,ubicacionFactory){
+	.controller("MainController",function($scope,$http,ubicacionFactory,tipoUsFactory){
 		$scope.persona = {};
 		$scope.estados = [];
 		$scope.municipios = [];
@@ -19,6 +19,8 @@ angular.module("AngularApp")
 						};
 		$scope.tipo_alerta = '';
 		$scope.respuesta = '';
+		$scope.tipoUs = [];
+		$scope.newObject = {};
 		//-- Método al hacer change en estado
 		$scope.change_estados = function(){
 			$scope.carga_de_municipios();
@@ -54,6 +56,12 @@ angular.module("AngularApp")
 			});
 		}	
 
+		//-- Llama al factory que trae los tipos de usuarios
+		$scope.carga_tipos_usuarios = function(){
+			tipoUsFactory.cargar_tipos_us(function(data){
+				$scope.tipoUs = data;
+			});
+		}
 		//-- Método para cargar municipios
 		/*/$scope.cargar_municipios = function(){
 			$scope.accion = "consultar";
@@ -91,26 +99,31 @@ angular.module("AngularApp")
 		$scope.carga_de_municipios();
 		//--Cargo las parroquias
 		$scope.carga_de_parroquias();
+		//--Cargo los check
+		$scope.carga_tipos_usuarios();
 		//------------------------------------------------------------------------------------------------
 		//--Metodo para realizar el registro en la bd...
 		$scope.guardarPersona = function(){
 			$scope.accion = "guardar";
 			$http.post("./modulos/usuarios/usuariosController.php",
-				{
-					'nombres' : $scope.persona.nombres,
-					'cedula': $scope.persona.cedula,
-					'id':$scope.persona.id,
-					'accion': $scope.accion,
-					'estado':$scope.esta.id,
-					'municipio':$scope.mun.id,
-					'parroquia':$scope.par.id
-				}).success(function(data, status, headers, config){
-					
+			{
+				'nombres' : $scope.persona.nombres,
+				'cedula': $scope.persona.cedula,
+				'id':$scope.persona.id,
+				'accion': $scope.accion,
+				'estado':$scope.esta.id,
+				'municipio':$scope.mun.id,
+				'parroquia':$scope.par.id
+			}).success(function(data, status, headers, config){
 					console.log($scope.esta.id);
 					console.log(data);
 					$scope.mensaje.resultado = data['mensaje'];
 					//---
 					if(data["mensaje"]=="Registro Exitoso"){
+						//--
+						//--Si el registro fue exitoso, registro a tipo_usuarios
+						$scope.registrar_tipoUs();
+						//--
 						$scope.mensaje.imagen = "fa fa-check";
 						$scope.tipo_alerta = 'alert-success';
 					}else
@@ -126,9 +139,18 @@ angular.module("AngularApp")
 							$scope.limpiar_campos();
 						});
 					},3000);
-				}).error(function(data,status){
+			}).error(function(data,status){
 					$scope.mensaje_error();
-				});
+			});
+		}
+		$scope.registrar_tipoUs = function(){
+			$scope.accion = "guardar";
+			$http.post("./modulos/tipos_usuarios/tiposUsController.php",$scope.newObject)
+			.success(function(data, status, headers, config){
+				console.log(data);
+			}).error(function(data,status){
+				$scope.mensaje_error();
+			});
 		}
 		//--
 		$scope.limpiar_campos = function(){
@@ -138,7 +160,7 @@ angular.module("AngularApp")
 			$scope.mun = "";
 			$scope.par = "";
 		}
-
+		//--
 		$scope.mensaje_error = function(){
 			$scope.mensaje.resultado = '';
 			$scope.mensaje.errores = data['mensaje'];

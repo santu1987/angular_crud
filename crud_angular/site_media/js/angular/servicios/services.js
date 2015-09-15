@@ -1,4 +1,13 @@
 angular.module("AngularApp")
+//-- Para tipo de usuarios
+	.factory("tipoUsFactory",['$http', function($http){
+		return{
+			cargar_tipos_us : function (callback){
+				$http.post("./modulos/tipos_usuarios/tiposUsController.php",{ accion:'consultar' }).success(callback);		
+			}
+		}	
+	}])
+//-- Para ubicaciones: Estados/municipios/parroquias...	
 	.factory("ubicacionFactory",['$http', function($http){
 	/*	return{
 			cargar_estados : function(){
@@ -34,4 +43,5 @@ angular.module("AngularApp")
 				$http.post("./modulos/parroquias/parroquiasController.php",{ accion:'consultar', municipio: id_municipio }).success(callback);
 			}
 		}
-	}]);
+	}])
+	

@@ -25,7 +25,7 @@ body
 {  
   /*float: left;*/
   margin-left: 30%;
-  margin-top: 60px;
+ /* margin-top: 60px;*/
   /*margin-bottom: 5%;*/
   margin-bottom: 1%;
   background-color: #fff;
@@ -160,10 +160,15 @@ ul, menu, dir {
 
 .mensajes
 {
-  margin-top: 10px;
+  /*margin-top: 10px;
   width: 25%;
   margin: 0 auto;
-  margin-left: 32%;
+  margin-left: 32%;*/
+  width: 25%;
+  /*margin: 0 auto;*/
+  margin-top: 20px;
+  width: 100%;
+  float: left;
 }
 
 .animated
@@ -177,12 +182,13 @@ ul, menu, dir {
 .animated.ng-hide
 {
   opacity:0;
-  display: block !important;
+  /*display: block !important;*/
 }
 
 .boton
 {
     width: 100%;
+    margin-top: 13px;
 }
 
 tbody 
@@ -214,6 +220,24 @@ footer
 {
   text-align: center;
 }
+
+input[type="checkbox"]:checked + label {
+  background: url(../img/checked.png) no-repeat;
+}
+
+input[type="checkbox"] + label {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url(../img/unchecked.png) no-repeat;
+  cursor: pointer;
+}
+
+.check_oc
+{
+  display: none;
+}
+
 /*---Bloque de media--------------*/
 @media (max-width: 768px){
   .cuadro_div{
