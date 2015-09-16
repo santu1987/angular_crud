@@ -14,13 +14,17 @@ if($post)
 	switch ($post["accion"]) {
 		case 'guardar':
 			$recordset = insertar_usuario($post);
-			if($recordset != false){
-				$mensaje["mensaje"] =  "Registro Exitoso";
+			if($recordset == "error"){
+				$mensaje["mensaje"] = "Error #01: No se realizó la operación";
+			}else
+			if($recordset[0][0]=='-1'){
+				$mensaje["mensaje"] = "Error #02: YA existe un usuario con esa cédula";
 			}else
 			{
-				$mensaje["mensaje"] = "Error: No se realizó el registro";
+				$mensaje["mensaje"] =  "Registro Exitoso";
+				$mensaje["id"] = $recordset[0][0];
 			}
-			//$mensaje[0] = $recordset;
+			//$mensaje[0] = $recordset[0][0];
 			die(json_encode($mensaje));	
 			break;
 		default:

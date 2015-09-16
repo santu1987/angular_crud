@@ -8,11 +8,23 @@ class tipoUsModel extends conex{
 
 	}
 	//--
-	public function insert_data($user_data = array()){
+	public function insert_data($user_data = array(),$id){
 		foreach ($user_data as $campo) {
-			$vector = $vector."-".$campo; 
+			//$vector = $vector."-".$campo; 
+			$this->sql = "INSERT INTO
+										usuario_tipo_usuario
+										(
+											id_usuario,
+											id_tipo_usuario
+										)
+						   VALUES(
+						   				'".$id."',
+						   				'".$campo."'
+						   	)";
+			$this->result = $this->execute($this->sql);
+			//return $this->result;
 		}
-		return $vector;
+		return $this->result;
 	}
 	//--
 	public function consult_tipous(){	

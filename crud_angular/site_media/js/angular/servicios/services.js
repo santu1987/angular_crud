@@ -7,21 +7,44 @@ angular.module("AngularApp")
 			}
 		}	
 	}])
+//--Para mensajes de la App	
+	.factory("mensajesFactory",[function(){
+		return {
+
+					mensajeError : function(){
+						mensaje = {
+										'opcion':'',
+										'resultado':'',
+										'errores':'',
+										'imagen':'fa fa-exclamation-circle',
+										'tipo_alerta':'alert-danger'
+									};
+						return mensaje;			
+					},
+					mensajeSuccess : function(){
+						mensaje = {
+									'opcion':'',
+									'resultado':'',
+									'errores':'',
+									'imagen':'fa fa-check',
+									'tipo_alerta': 'alert-success'	
+						};
+						return mensaje;
+					},
+					pre_loader : function(){
+						mensaje = {
+									'opcion':'true',
+									'resultado':'',
+									'errores':'',
+									'imagen':'fa fa-cog fa-spin',
+									'tipo_alerta': 'alert-info'	
+						};
+						return mensaje			
+				}
+		}
+	}])
 //-- Para ubicaciones: Estados/municipios/parroquias...	
 	.factory("ubicacionFactory",['$http', function($http){
-	/*	return{
-			cargar_estados : function(){
-				accion = "consultar";
-				$http.post("./modulos/estados/estadosController.php",
-				{
-				  	'accion':accion	
-				}).success(function(data, status, headers, config){
-					estados = data;
-				}).error(function(error,status){
-					estados = "error";	
-				});
-			}
-		}*/
 		var id_estado ='';
 		var id_municipio ='';
 		return{
@@ -44,4 +67,4 @@ angular.module("AngularApp")
 			}
 		}
 	}])
-	
+//--

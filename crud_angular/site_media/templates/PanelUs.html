@@ -1,4 +1,4 @@
-<h1>{{titulo_sistema}}</h1>
+<h1 class="titulo_app">{{titulo_sistema}}</h1>
 <div class="cuadro_div">
 	<form  class="form-horizontal form_cuadro" ng-submit="guardarPersona()">
 		<fieldset><legend><h1>{{sub_titulo}}</h1></legend></fieldset>
@@ -42,16 +42,16 @@
 			<legend><h3>Tipo Usuario</h3></legend>
 		</div>
 		<div class="col-lg-12" ng-repeat="tipo in tipoUs">
-			<input class='check_oc' name="tipo{{tipo.number}}" id="tipo{{tipo.number}}" type="checkbox" value="{{tipo.id}}" ng-model="newObject[tipo.name]">
+			<input class='check_oc' name="tipo{{tipo.number}}" id="tipo{{tipo.number}}" type="checkbox" value="{{tipo.id}}" ng-model="newObject[tipo.name]" ng-true-value="{{tipo.id}}" ng-false-value="">
 			<label for="tipo{{tipo.number}}">
 				<span>
 					<div class="ef_text1" style="margin:5px 0 0 30px">{{ tipo.name }}</div>
 				</span>
 			</label>					
 		</div>
-	   <pre>{{newObject | json}}</pre>
-	   <pre>{{ejem}}</pre>
+	   <!--<pre>{{newObject | json}}</pre>
+	   <pre>{{ejem}}</pre> -->
 		<button type="submit" class="btn btn-primary boton">Guardar</button>
-		<div ng-hide="!mensaje.opcion" class="alert {{tipo_alerta}} mensajes animated"><i class="{{mensaje.imagen}}"></i> {{mensaje.resultado}}{{errores}}</div>
+		<div ng-hide="!mensaje.opcion" class="alert {{mensaje.tipo_alerta}} mensajes animated"><i class="{{mensaje.imagen}}"></i> {{mensaje.resultado}}{{errores}}</div>
 	</form>	
 </div>

@@ -15,9 +15,14 @@ if($post){
 			die(json_encode($recordset));
 			break;
 		case 'guardar':
-			//$recordset = registrar_tipoUs($data);
-			$recordset = "Aqui";
-			die(json_encode($recordset));
+			$recordset = registrar_tipoUs($post["checkbox"],$post["id"]);
+			if($recordset=="error"){
+				$mensaje["mensaje"] = "Error #03: No se realizó la operación a pesar de haberse registrado al usuario";
+			}else{
+				$mensaje["mensaje"] =  "Registro Exitoso";
+			}
+			//$mensaje["mensaje"] = $recordset[0][0];
+			die(json_encode($mensaje));
 			break;	
 		default:
 			# code...
@@ -31,6 +36,8 @@ function helper_userdata($data){
 	$user_data =  array();
 	//--
 	$user_data['accion'] = pg_escape_string($data->accion);
+	$user_data['checkbox'] = $data->checkbox;
+	$user_data['id'] = $data->id;
 	//--
 	return $user_data;
 }
@@ -48,10 +55,9 @@ function consultar_tipousuario(){
 	//--
 }
 //--
-function registrar_tipoUs($post){
-	return "aaaa";
+function registrar_tipoUs($seleccionados,$id){
 	$obj = new tipoUsModel();
-	$rs = $obj->insert_data($post);
+	$rs = $obj->insert_data($seleccionados,$id);
 	return $rs;
 } 
 //--

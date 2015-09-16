@@ -9,7 +9,7 @@ body
   margin-top: 3%;
   width: 100%;
   height: auto;
-
+  padding:1%;
 }
 .form_cuadro
 {
@@ -189,6 +189,11 @@ ul, menu, dir {
 {
     width: 100%;
     margin-top: 13px;
+}
+
+#titulo_app 
+{
+  margin-left: 5%;
 }
 
 tbody 

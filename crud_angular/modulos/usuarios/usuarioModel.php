@@ -13,20 +13,14 @@ class usuarioModel extends conex{
 			foreach ($user_data as $campo => $valor) {
 				$$campo = $valor;
 			}
-			$this->sql = "INSERT INTO usuarios2
-									(
-										cedula,
-										nombres,
-										estado,
-										municipio,
-										parroquia
-									)
-						  VALUES(	'".$cedula."',
-						  			'".$nombres."',
+			
+			$this->sql = "SELECT registrar_usuario2(	
+									'".$nombres."',
+						  			'".$cedula."',
 						  			'".$estado."',
 						  			'".$municipio."',
 						  			'".$parroquia."');";	
-			$this->result = $this->enviarQuery($this->sql);
+			$this->result = $this->execute($this->sql);
 			return $this->result; 	
 		}
 	}
@@ -80,7 +74,7 @@ class usuarioModel extends conex{
 					 limit
 					 		'".$limit."';";
 		$this->result =  $this->execute($this->sql);
-		return $this->result;
+		return $this->sql;
 		//--
 	}
 
