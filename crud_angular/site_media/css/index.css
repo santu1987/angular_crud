@@ -238,6 +238,22 @@ input[type="checkbox"] + label {
   cursor: pointer;
 }
 
+/*-----------/Clases para tablas adaptables/------------------*/
+.th-cedulas{
+  width:10%;
+}
+.th-nombres{
+  width:25%;  
+}
+.th-estados{
+  width:20%;
+}
+.th-municipios{
+  width:20%;
+}
+
+
+/*------------------------------------------------------------*/
 .check_oc
 {
   display: none;

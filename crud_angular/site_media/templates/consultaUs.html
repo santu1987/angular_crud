@@ -1,0 +1,38 @@
+<div>Here We cum</div>
+
+<div class="cuadro_div_tabla">
+	<fieldset>
+		<legend>
+			<h2>Listado Personas</h2>		
+		</legend>
+	</fieldset>
+	<div></div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th class="th-cedulas">C&eacute;dula</th>
+				<th class="th-nombres">Nombres</th>
+				<th class="th-estados">Estados</th>
+				<th class="th-municipios">Municipios</th>
+				<th class="th-parroquias">Parroquias</th>
+			</tr>	
+		</thead>
+		<tbody>
+			<tr ng-repeat="persona in personaCn">
+				<td class="th-cedulas">{{persona.cedula}}</td>
+				<td class="th-nombres">{{persona.nombres}}</td>
+				<td class="th-estados">{{persona.nombre_estado}}</td>
+				<td class="th-municipios">{{persona.nombre_municipio}}</td>
+				<td class="th-parroquias">{{persona.nombre_parroquia}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div role="toolbar">
+		<button type="button" class="btn btn-primary pag_btn {{paginador.clase_paginador_anterior}}" ng-click='' title="Ir anterior"><i class="fa fa-chevron-left"></i></button>
+		<button type="button" class="btn btn-primary pag_btn {{paginador.clase_paginador_siguiente}}" ng-click='' title="Ir siguiente"><i class="fa fa-chevron-right"></i></button>
+		<span class='hide' id="offset_tabla" name="offset_tabla">{{paginador.offset_tabla}}</span>
+		<span class='span_paginacion' id="inicio_tabla" name="inicio_tabla">{{paginador.inicio_tabla}}</span><span class="span_paginacion">-</span>
+		<span class='span_paginacion' id="fin_tabla" name="fin_tabla">{{paginador.fin_tabla}}</span><span> de </span><span class="span_paginacion">:</span>
+		<span class='span_paginacion' id="cuantos_tabla" name="cuantos_tabla">{{paginador.cuantos_tabla}}</span>
+	</div>
+</div>

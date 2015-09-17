@@ -27,6 +27,13 @@ if($post)
 			//$mensaje[0] = $recordset[0][0];
 			die(json_encode($mensaje));	
 			break;
+		case 'consultar';
+			$recordset = consultar_usuario($post);
+			die(json_encode($recordset));
+			break;	
+		case 'consultar_cuantos_son':
+			$recordset = cuantos_son();
+			die(json_encode($recordset));	
 		default:
 			# code...
 			break;
@@ -37,17 +44,25 @@ if($post)
 //--Helper que genera el arreglo de datos
 function helper_userdata($data){
 	$user_data = array();
-	//--
-	$user_data['nombres'] = pg_escape_string($data->nombres);
-	$user_data['cedula'] = pg_escape_string($data->cedula);
-	if($data->id!=""){
-		$user_data['id'] = pg_escape_string($data->id);
-	}
 	$user_data['accion'] = pg_escape_string($data->accion);
-	$user_data['estado'] = $data->estado;
-	$user_data['municipio'] = $data->municipio;
-	$user_data['parroquia'] = $data->parroquia;
-	//--
+	switch($user_data["accion"])
+	{
+		//--Dependiendo de la pantalla el realiza el barrido de los objetos llevandolo a arreglos....
+		//--Pantalla Guardar....
+		case "guardar":
+			$user_data['nombres'] = pg_escape_string($data->nombres);
+			$user_data['cedula'] = pg_escape_string($data->cedula);
+			if($data->id!=""){
+				$user_data['id'] = pg_escape_string($data->id);
+			}
+			$user_data['estado'] = $data->estado;
+			$user_data['municipio'] = $data->municipio;
+			$user_data['parroquia'] = $data->parroquia;
+		break;
+		default:
+			#code
+			break;		
+	}
 	return $user_data;
 }
 //--
@@ -57,4 +72,23 @@ function insertar_usuario($post){
 	return $resp;
 }
 //--
+function consultar_usuario($post){
+	$obj = new usuarioModel();
+	$resp = $obj->consult_data($post);
+	//--Recorro el arreglo para tyransformarlo en un json que pueda utilizar en el frontent
+	foreach ($resp as $campo) {
+		$personas[] = array('id'=>$campo[2],'nombres'=>$campo[0], 'cedula'=>$campo[1], 'codigoestado'=>$campo[3], 'codigomunicipio' => $campo[4], 'codigoparroquia'=> $campo[5], 'nombre_estado'=>$campo[6], 'nombre_municipio'=>$campo[7], 'nombre_parroquia'=>$campo[8]);
+	}
+	//--
+	return $personas;	
+	//--
+}
+//--
+function cuantos_son(){
+	$obj = new usuarioModel();
+	$resp = $obj->cuantos_data();
+	return $resp[0][0];
+}
+//--
+
 ?>
