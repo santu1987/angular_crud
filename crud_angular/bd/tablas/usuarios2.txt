@@ -1,0 +1,26 @@
+CREATE TABLE usuarios2
+(
+  nombres character varying,
+  cedula integer,
+  id serial NOT NULL,
+  estado character varying,
+  municipio character varying,
+  parroquia character varying,
+  CONSTRAINT usuarios2_estado_fkey FOREIGN KEY (estado)
+      REFERENCES tbl_estado (codigoestado) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT usuarios2_municipio_fkey FOREIGN KEY (municipio)
+      REFERENCES tbl_municipio (codigomunicipio) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT usuarios2_parroquia_fkey FOREIGN KEY (parroquia)
+      REFERENCES tbl_parroquia (codigoparroquia) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE usuarios2
+  OWNER TO postgres;
+COMMENT ON TABLE usuarios2
+  IS 'Tabla de prueba';
+

@@ -1,0 +1,12 @@
+CREATE TABLE tipo_usuario
+(
+  id serial NOT NULL,
+  nombre_tipo character varying,
+  CONSTRAINT tipo_usuario_pkey PRIMARY KEY (id )
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE tipo_usuario
+  OWNER TO postgres;
+

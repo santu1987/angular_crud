@@ -1,0 +1,40 @@
+CREATE OR REPLACE FUNCTION registrar_usuario2(character varying, integer, character varying, character varying, character varying)
+  RETURNS integer AS
+$BODY$
+DECLARE
+    nombre_usuario ALIAS FOR $1;
+    cedula_usuario ALIAS FOR $2;
+    estado ALIAS FOR $3;
+    municipio ALIAS FOR $4;
+    parroquia ALIAS FOR $5;
+    existe integer;
+    maximo integer;    	
+BEGIN
+	SELECT count(*) INTO existe FROM usuarios2 WHERE cedula = cedula_usuario;
+	IF existe=0 THEN
+	    INSERT INTO usuarios2
+				(
+					cedula,
+					nombres,
+					estado,
+					municipio,
+					parroquia
+				)
+			VALUES(
+					cedula_usuario,
+					nombre_usuario,
+					estado,
+					municipio,
+					parroquia);
+	   SELECT MAX(id) INTO maximo FROM usuarios2;
+	   return maximo;					
+	ELSE
+		return -1;					
+	END IF;	
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION registrar_usuario2(character varying, integer, character varying, character varying, character varying)
+  OWNER TO postgres;
+

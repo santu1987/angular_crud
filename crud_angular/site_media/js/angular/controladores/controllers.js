@@ -1,5 +1,5 @@
 angular.module("AngularApp")
-	.controller("MainController",function($scope,$http,ubicacionFactory,tipoUsFactory,mensajesFactory){
+	.controller("MainController",function($scope,$http,ubicacionFactory,tipoUsFactory,mensajesFactory,objetosFactory){
 		$scope.persona = {};
 		$scope.estados = [];
 		$scope.municipios = [];
@@ -117,7 +117,7 @@ angular.module("AngularApp")
 					'parroquia':$scope.par.id
 				}).success(function(data, status, headers, config){
 						//console.log($scope.esta.id);
-						console.log(data);
+						//console.log(data);
 						if(data["mensaje"]=="Registro Exitoso"){
 							//--Si el registro fue exitoso, registro a tipo_usuarios
 							$scope.registrar_tipoUs(data["id"]);
@@ -153,7 +153,7 @@ angular.module("AngularApp")
 				'checkbox': $scope.newObject
 			})
 			.success(function(data, status, headers, config){
-				console.log(data);
+				//console.log(data);
 			}).error(function(data,status){
 				$scope.mensaje_error();
 			});
@@ -171,8 +171,8 @@ angular.module("AngularApp")
 		}
 		//-- Metodo para validar campos antes de guardar
 		$scope.validar_registro = function (){
-			var size_check = Object.size($scope.newObject);
-			console.log(size_check);
+			var size_check = objetosFactory.size($scope.newObject);
+			console.log("Size:"+size_check);
 			//--Nombres
 			if(($scope.persona.nombres == undefined)||($scope.persona.nombres == "")){
 				$scope.mensaje_temp("Debe incluir nombre");
@@ -197,7 +197,7 @@ angular.module("AngularApp")
 			if(size_check==0){
 				$scope.mensaje_temp("Debe seleccionar al menos un tipo de usuario");
 			}else
-				return true
+				return true;
 		}
 		//--Para mensajes temporales
 		$scope.mensaje_temp = function(elMensaje){
@@ -209,21 +209,13 @@ angular.module("AngularApp")
 							$scope.mensaje.opcion = false;
 						});
 			},3000);
-			return false
+			return false;
 		}
 		//--Metodo para el pre loader
 		$scope.pre_loader = function(){
 			$scope.mensaje = mensajesFactory.pre_loader();
 			$scope.mensaje.resultado = "Espere unos segundos mientras se ejecuta el proceso...";
 		}
-		//--
-		Object.size = function(obj) {
-		    var size = 0, key;
-		    for (key in obj) {
-		        if (obj.hasOwnProperty(key)) size++;
-		    }
-		    return size;
-		};
 		//--
 })
 //---Ejemplo de como armas un select estático.....
