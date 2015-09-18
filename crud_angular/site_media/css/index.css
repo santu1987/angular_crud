@@ -239,6 +239,9 @@ input[type="checkbox"] + label {
 }
 
 /*-----------/Clases para tablas adaptables/------------------*/
+.th-numeros{
+  width:10%;
+}
 .th-cedulas{
   width:10%;
 }
@@ -251,8 +254,6 @@ input[type="checkbox"] + label {
 .th-municipios{
   width:20%;
 }
-
-
 /*------------------------------------------------------------*/
 .check_oc
 {

@@ -204,6 +204,10 @@ angular.module("AngularApp")
 //----------------------------------------------------------------------------------------------------------------
 	.controller("consultaUsController", function($scope, $http, mensajesFactory,paginacionFactory){
 		$scope.cuantos_son ='';
+		$scope.filtro = {
+							"nombres":"",
+							"cedula":""
+						}
 		$scope.personaCn = {
 						nombres:'',
 						cedula : '',
@@ -223,14 +227,27 @@ angular.module("AngularApp")
 						"clase_tabla":"",
 						"clase_tickets":""
 					}
-		$scope.consultarPersona = function(id){
+
+		$scope.vect_tabla ={
+								"actual": 1,
+								"cuantos_son":$scope.cuantos_son,
+								"cuantos_x_pagina":20,
+								"tipo": ""
+		}
+			
+		$scope.consultarPersona = function(offset,limit){
 			$scope.accion = "consultar";
 			$http.post("./modulos/usuarios/usuariosController.php",
 			{
-					'accion' : $scope.accion
+					'accion' : $scope.accion,
+					'offset':offset,
+					'limit':limit,
+					'nombres': $scope.filtro.nombres,
+					'cedula':$scope.filtro.cedula
 			})
 			.success(function(data, status, headers, config){
 				console.log(data);
+				console.log(offset+"-"+limit);
 				$scope.personaCn = data;
 			})
 			.error(function(data,status){
@@ -248,16 +265,12 @@ angular.module("AngularApp")
 				$scope.cuantos_son = data;
 				console.log($scope.cuantos_son);
 				$scope.paginador = {
-						"paginador_siguiente":"$scope.ir_tabla(0,"+$scope.cuantos_son +",20,1);",
-						"paginador_anterior":"$scope.ir_tabla(0,"+$scope.cuantos_son+",20,2);",
-						"clase_paginador_siguiente":paginacionFactory.pag.clase_paginador_siguiente,
-						"clase_paginador_anterior":paginacionFactory.pag.paginador_anterior,
-						"offset_tabla":offset,
-						"cuantos_tabla":$scope.cuantos_son_tabla,
-						"inicio_tabla":paginacionFactory.pag.inicio_tabla,
-						"fin_tabla":paginacionFactory.pag.fin_tabla,
-						"clase_tabla":paginacionFactory.pag.clase_tabla,
-						"clase_tickets":paginacionFactory.pag.clase_tickets
+						"clase_paginador_siguiente":"btn btn-primary pag_btn",
+						"clase_paginador_anterior":"btn btn-primary pag_btn disabled",
+						"offset_tabla":"0",
+						"cuantos_tabla":$scope.cuantos_son.replace(/"/g," "),
+						"inicio_tabla":"1",
+						"fin_tabla":"20"
 					}				
 			})
 			.error(function(data,status){
@@ -265,9 +278,26 @@ angular.module("AngularApp")
 				$scope.mensaje.resultado = data;
 			});
 		}
+	
+		$scope.ir_tabla = function(tipo){
+			$scope.vect_tabla.cuantos_son = $scope.cuantos_son;
+			$scope.vect_tabla.tipo = tipo;
+			//console.log(" Actual:"+$scope.vect_tabla.actual+" Cuantos_son:"+$scope.vect_tabla.cuantos_son+" cuantos_x_pagina:"+$scope.vect_tabla.cuantos_x_pagina+" tipo:"+$scope.vect_tabla.tipo);
+			//--Armo la estructura de la páginación
+			$scope.paginador = paginacionFactory.armar_paginacion($scope.cuantos_son,$scope.vect_tabla);
+			//console.log($scope.paginador);
+			//--Actualizo el vect_tabla
+			$scope.vect_tabla.actual = $scope.paginador.inicio_tabla;
+			$scope.vect_tabla.cuantos_son = $scope.paginador.cuantos_son_tabla;
+			$scope.vect_tabla.cuantos_x_pagina = 20;
+			$scope.vect_tabla.tipo = tipo;
+			//--Consulto
+			$scope.consultarPersona($scope.vect_tabla.actual,$scope.vect_tabla.cuantos_x_pagina );
+			console.log($scope.vect_tabla.actual+"*"+$scope.vect_tabla.cuantos_x_pagina);
+			//--
+		}
 	//--
-	$scope.consultarPersona();
+	$scope.consultarPersona(0,20);
 	$scope.armarPaginacion();	
 	})
-
 //----------------------------------------------------------------------------------------------------------------

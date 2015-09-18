@@ -1,15 +1,26 @@
-<div>Here We cum</div>
-
 <div class="cuadro_div_tabla">
 	<fieldset>
 		<legend>
 			<h2>Listado Personas</h2>		
 		</legend>
 	</fieldset>
-	<div></div>
+	<div class="form-group">
+		<div class="col-lg-12">
+			<h3>Filtros:</h3>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-lg-4">
+			<input type="text" class="form-control" name="filtro_nombres" id="filtro_nombres" placeholder="Ingrese Nombre" ng-model="filtro.nombres" ng-change="ir_tabla(1);">
+		</div>
+		<div class="col-lg-4">
+			<input type="text" class="form-control" name="filtro_nombres" id="filtro_nombres" placeholder="Ingrese cédula" ng-model="filtro.cedula" ng-change="ir_tabla(1);">
+		</div>
+	</div>
 	<table class="table table-striped">
 		<thead>
 			<tr>
+				<th class="th-numeros">N#</th>
 				<th class="th-cedulas">C&eacute;dula</th>
 				<th class="th-nombres">Nombres</th>
 				<th class="th-estados">Estados</th>
@@ -19,6 +30,7 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="persona in personaCn">
+				<td class="th-numeros">{{persona.numero}}</td>
 				<td class="th-cedulas">{{persona.cedula}}</td>
 				<td class="th-nombres">{{persona.nombres}}</td>
 				<td class="th-estados">{{persona.nombre_estado}}</td>
@@ -28,8 +40,8 @@
 		</tbody>
 	</table>
 	<div role="toolbar">
-		<button type="button" class="btn btn-primary pag_btn {{paginador.clase_paginador_anterior}}" ng-click='' title="Ir anterior"><i class="fa fa-chevron-left"></i></button>
-		<button type="button" class="btn btn-primary pag_btn {{paginador.clase_paginador_siguiente}}" ng-click='' title="Ir siguiente"><i class="fa fa-chevron-right"></i></button>
+		<button type="button" class="btn btn-primary pag_btn {{paginador.clase_paginador_anterior}}"  ng-click='ir_tabla(2)' title="Ir anterior"><i class="fa fa-chevron-left"></i></button>
+		<button type="button" class="btn btn-primary pag_btn {{paginador.clase_paginador_siguiente}}" ng-click='ir_tabla(1)' title="Ir siguiente"><i class="fa fa-chevron-right"></i></button>
 		<span class='hide' id="offset_tabla" name="offset_tabla">{{paginador.offset_tabla}}</span>
 		<span class='span_paginacion' id="inicio_tabla" name="inicio_tabla">{{paginador.inicio_tabla}}</span><span class="span_paginacion">-</span>
 		<span class='span_paginacion' id="fin_tabla" name="fin_tabla">{{paginador.fin_tabla}}</span><span> de </span><span class="span_paginacion">:</span>

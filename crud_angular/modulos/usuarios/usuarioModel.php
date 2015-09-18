@@ -25,7 +25,24 @@ class usuarioModel extends conex{
 		}
 	}
 	//-- Metodo para realizar la consulta de datos de usuarios
-	public function consult_data (){
+	public function consult_data ($user_data = array()){
+		foreach ($user_data as $campo => $valor) {
+			$$campo = $valor;
+		}
+		//--Programando los filtros de la consulta-------------------------------------------------------------------------------------------------------------------
+		$this->where = "WHERE 1=1 ";
+		//-- Evaluo filtros....
+		if($nombres!=""){
+			$this->where.=" AND upper(nombres) like '".strtoupper($nombres)."'";
+			$offset = 0;
+		}
+
+		if($cedula!=""){
+			$this->where.=" AND cedula::character varying like '".$cedula."'";
+			$offset = 0;
+		}
+		//--
+		//-----------------------------------------------------------------------------------------------------------------------------------------------------------
 		$this->sql = "SELECT 
 							a.nombres,
 							a.cedula,
@@ -49,8 +66,14 @@ class usuarioModel extends conex{
 					  INNER JOIN 
 					  		tbl_parroquia d 
 					  ON 
-					  		a.parroquia = d.codigoparroquia		 						
-					 ";
+					  		a.parroquia = d.codigoparroquia
+					   ".$this->where."
+					  ORDER BY
+					  		id 
+					  offset
+					  		'".$offset."' 		
+					  LIMIT
+					  		'".$limit."'";
 
 		$this->result =  $this->execute($this->sql);
 		return $this->result;
@@ -117,7 +140,6 @@ class usuarioModel extends conex{
 		return $this->sql;
 		//--
 	}
-
 	public function __destruct(){
 		unset($this);
 	}
