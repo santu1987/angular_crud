@@ -32,7 +32,7 @@ if($post)
 			die(json_encode($recordset));
 			break;	
 		case 'consultar_cuantos_son':
-			$recordset = cuantos_son();
+			$recordset = cuantos_son($post);
 			die(json_encode($recordset));	
 		default:
 			# code...
@@ -62,7 +62,11 @@ function helper_userdata($data){
 		case "consultar":
 			$user_data["offset"] = $data->offset;
 			$user_data["limit"] = $data->limit;
-			$user_data["nombres"] = $data->nombres;
+			$user_data["nombres"] = pg_escape_string(strtoupper($data->nombres));
+			$user_data["cedula"] = $data->cedula;
+		break;	
+		case "consultar_cuantos_son":
+			$user_data["nombres"] = pg_escape_string(strtoupper($data->nombres));
 			$user_data["cedula"] = $data->cedula;
 		default:
 			#code
@@ -81,7 +85,7 @@ function consultar_usuario($post){
 	$obj = new usuarioModel();
 	$resp = $obj->consult_data($post);
 	$i = 0;
-	//--Recorro el arreglo para tyransformarlo en un json que pueda utilizar en el frontent
+	//--Recorro el arreglo para transformarlo en un json que pueda utilizar en el frontend
 	foreach ($resp as $campo) {
 		$i++;
 		$personas[] = array('numero'=>$i,'id'=>$campo[2],'nombres'=>$campo[0], 'cedula'=>$campo[1], 'codigoestado'=>$campo[3], 'codigomunicipio' => $campo[4], 'codigoparroquia'=> $campo[5], 'nombre_estado'=>$campo[6], 'nombre_municipio'=>$campo[7], 'nombre_parroquia'=>$campo[8]);
@@ -91,10 +95,11 @@ function consultar_usuario($post){
 	//--
 }
 //--
-function cuantos_son(){
+function cuantos_son($post){
 	$obj = new usuarioModel();
-	$resp = $obj->cuantos_data();
+	$resp = $obj->cuantos_data($post);
 	return $resp[0][0];
+	//return $resp;
 }
 //--
 

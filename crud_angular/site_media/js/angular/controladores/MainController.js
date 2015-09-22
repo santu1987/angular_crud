@@ -189,6 +189,7 @@ angular.module("AngularApp")
 		}
 		//--
 })
+//------------------------------------------------------------------
 //---Ejemplo de como armas un select estático.....
 	/*.controller("selectController",['$scope',function($scope){
 		$scope.estados = {
@@ -246,32 +247,49 @@ angular.module("AngularApp")
 					'cedula':$scope.filtro.cedula
 			})
 			.success(function(data, status, headers, config){
-				console.log(data);
+				console.log("Data:"+data);
 				console.log(offset+"-"+limit);
-				$scope.personaCn = data;
+				if(data == 'null')
+					$scope.personaCn = "";
+				else
+				{
+					$scope.personaCn = data;
+				}
 			})
 			.error(function(data,status){
 				$scope.mensaje = mensajesFactory.mensajeError();
 				$scope.mensaje.resultado = "Error #03: Proceso de consulta fallido";
 			});
 		}
-		$scope.armarPaginacion =function (){
+
+		$scope.armarPaginacion = function (){
 			$scope.accion = "consultar_cuantos_son";
 			$http.post("./modulos/usuarios/usuariosController.php",
 			{
-				'accion' :$scope.accion
+				'accion' :$scope.accion,
+				'nombres':$scope.filtro.nombres,
+				'cedula':$scope.filtro.cedula
 			})
 			.success(function(data, status, headers, config){
 				$scope.cuantos_son = data;
+				var clase_sig = '';
+				var cuant = $scope.cuantos_son.replace(/"/g," ");
+				if(cuant<20){
+					fin_tbl = cuant;
+					clase_sig = "btn btn-primary pag_btn disabled";
+				}else{
+					fin_tbl = 20;
+					clase_sig = "btn btn-primary pag_btn";
+				}
 				console.log($scope.cuantos_son);
 				$scope.paginador = {
-						"clase_paginador_siguiente":"btn btn-primary pag_btn",
+						"clase_paginador_siguiente":clase_sig,
 						"clase_paginador_anterior":"btn btn-primary pag_btn disabled",
 						"offset_tabla":"0",
-						"cuantos_tabla":$scope.cuantos_son.replace(/"/g," "),
+						"cuantos_tabla":cuant,
 						"inicio_tabla":"1",
-						"fin_tabla":"20"
-					}				
+						"fin_tabla":fin_tbl
+				}				
 			})
 			.error(function(data,status){
 				$scope.mensaje = mensajesFactory.mensajeError();
@@ -292,9 +310,15 @@ angular.module("AngularApp")
 			$scope.vect_tabla.cuantos_x_pagina = 20;
 			$scope.vect_tabla.tipo = tipo;
 			//--Consulto
+			//$scope.armarPaginacion2();	
 			$scope.consultarPersona($scope.vect_tabla.actual,$scope.vect_tabla.cuantos_x_pagina );
 			console.log($scope.vect_tabla.actual+"*"+$scope.vect_tabla.cuantos_x_pagina);
 			//--
+		}
+
+		$scope.ir_tabla_filtros = function (){
+			$scope.ir_tabla(1);
+			$scope.armarPaginacion();
 		}
 	//--
 	$scope.consultarPersona(0,20);

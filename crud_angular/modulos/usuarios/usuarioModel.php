@@ -30,16 +30,25 @@ class usuarioModel extends conex{
 			$$campo = $valor;
 		}
 		//--Programando los filtros de la consulta-------------------------------------------------------------------------------------------------------------------
+		$order_by ="ORDER BY
+					  		id 
+					  offset
+					  		'".$offset."' 		
+					  LIMIT
+					  		'".$limit."'";
+		//-----------------------------------------------------------------------------------------------------------------------------------------------------------
 		$this->where = "WHERE 1=1 ";
 		//-- Evaluo filtros....
 		if($nombres!=""){
-			$this->where.=" AND upper(nombres) like '".strtoupper($nombres)."'";
+			$this->where.=" AND upper(nombres) like '%".$nombres."%'";
 			$offset = 0;
+			$order_by = "ORDER BY id offset 0 LIMIT 20";
 		}
 
 		if($cedula!=""){
 			$this->where.=" AND cedula::character varying like '".$cedula."'";
 			$offset = 0;
+			$order_by = "ORDER BY id offset 0 LIMIT 20";
 		}
 		//--
 		//-----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -79,11 +88,24 @@ class usuarioModel extends conex{
 		return $this->result;
 	}
 	//--Metodo para consultar cuantos registros son:
-	public function cuantos_data(){
+	public function cuantos_data($user_data = array()){
+		foreach ($user_data as $campo => $valor) {
+			$$campo = $valor;
+		}
+		$this->where = "WHERE 1=1 ";
+		//-- Evaluo filtros....
+		if($nombres!=""){
+			$this->where.=" AND upper(nombres) like '%".$nombres."%'";
+		}
+
+		if($cedula!=""){
+			$this->where.=" AND cedula::character varying like '".$cedula."'";
+		}
 		$this->sql = "SELECT 
 							COUNT(*)
 					  FROM 
-					  		usuarios2";
+					  		usuarios2
+					   ".$this->where;
 		$this->result =  $this->execute($this->sql);
 		return $this->result;			  		
 	}
