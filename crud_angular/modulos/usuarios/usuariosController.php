@@ -58,6 +58,7 @@ function helper_userdata($data){
 			$user_data['estado'] = $data->estado;
 			$user_data['municipio'] = $data->municipio;
 			$user_data['parroquia'] = $data->parroquia;
+			$user_data['fecha'] = $data->fecha;
 		break;
 		case "consultar":
 			$user_data["offset"] = $data->offset;

@@ -3,16 +3,18 @@ angular.module("AngularApp")
 	{
 		return{
 			restrict: 'E',
-			template:"<div class='form-group'><div class='col-lg-12'><input class='form-control' id='fecha' name='fecha' onkeyup='this.value=formateafecha(this.value);' placeholder='Fecha: dd-mm-aaaa'></div></div>",
-			//template: '<div class="dirClass"><h1>Directivas con AngularJS</h1></div>',
-			link: function(scope, element){
-				//$(".dirClass").css({'background' : 'orange', 'color' : 'white'});
+			scope : {
+						myDirectiveVar : '=',
+			},
+			template:"<div class='form-group'><div class='col-lg-12'><input class='form-control' id='fecha' ng-model='myDirectiveVar' name='fecha' onkeyup='this.value=formateafecha(this.value);' placeholder='Fecha: dd-mm-aaaa'></div></div>",
+			replace: true,
+			link: function($scope, elem, attr, ctrl){
 				$("#fecha").datetimepicker({ 
 				    lang:'es',
-				    minDate:0,
-				    timepicker:true,
+				    timepicker:false,
 				    format:'d-m-Y',
 				    formatDate:'Y-m-d',
+				    lang:'es',
 				});
 			}
 		};

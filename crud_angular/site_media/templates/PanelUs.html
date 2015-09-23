@@ -18,7 +18,7 @@
 				<input type="hidden" name="id_persona" id="id_persona" ng-model="persona.id" class="form-control">
 			</div>
 		</div>
-		<dirdatapicker></dirdatapicker>
+		<dirdatapicker my-directive-var="name"></dirdatapicker>
 		<div class="form-group" >
 			<div class="col-lg-12">
 				<select name="select_estados" id="select_estados" ng-options="option.name for option in estados track by option.id" ng-model="esta" ng-change="change_estados()" class="form-control">

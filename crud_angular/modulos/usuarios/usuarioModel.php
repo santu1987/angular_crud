@@ -19,7 +19,8 @@ class usuarioModel extends conex{
 						  			'".$cedula."',
 						  			'".$estado."',
 						  			'".$municipio."',
-						  			'".$parroquia."');";	
+						  			'".$parroquia."',
+						  			'".$fecha."');";	
 			$this->result = $this->execute($this->sql);
 			return $this->result; 	
 		}

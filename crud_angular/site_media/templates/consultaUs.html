@@ -22,23 +22,23 @@
 	</div>
 	<table class="table table-striped">
 		<thead>
-			<tr>
-				<th class="th-numeros">N#</th>
-				<th class="th-cedulas">C&eacute;dula</th>
-				<th class="th-nombres">Nombres</th>
-				<th class="th-estados">Estados</th>
-				<th class="th-municipios">Municipios</th>
-				<th class="th-parroquias">Parroquias</th>
+			<tr class="tr">
+				<th class="th th-numeros">N#</th>
+				<th class="th th-cedulas">C&eacute;dula</th>
+				<th class="th th-nombres">Nombres</th>
+				<th class="th th-estados">Estados</th>
+				<th class="th th-municipios">Municipios</th>
+				<th class="th th-parroquias">Parroquias</th>
 			</tr>	
 		</thead>
-		<tbody>
-			<tr ng-repeat="persona in personaCn">
-				<td class="th-numeros">{{persona.numero}}</td>
-				<td class="th-cedulas">{{persona.cedula}}</td>
-				<td class="th-nombres">{{persona.nombres}}</td>
-				<td class="th-estados">{{persona.nombre_estado}}</td>
-				<td class="th-municipios">{{persona.nombre_municipio}}</td>
-				<td class="th-parroquias">{{persona.nombre_parroquia}}</td>
+		<tbody class="tbody">
+			<tr ng-repeat="persona in personaCn" class="tr">
+				<td class="td th-numeros">{{persona.numero}}</td>
+				<td class="td th-cedulas">{{persona.cedula}}</td>
+				<td class="td th-nombres">{{persona.nombres}}</td>
+				<td class="td th-estados">{{persona.nombre_estado}}</td>
+				<td class="td th-municipios">{{persona.nombre_municipio}}</td>
+				<td class="td th-parroquias">{{persona.nombre_parroquia}}</td>
 			</tr>
 		</tbody>
 	</table>

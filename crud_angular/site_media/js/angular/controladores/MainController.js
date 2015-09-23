@@ -16,7 +16,8 @@ angular.module("AngularApp")
 		$scope.respuesta = '';
 		$scope.tipoUs = [];
 		$scope.newObject = {};
-		//-- Método al hacer change en estado
+		$scope.fecha = "";
+		//-- Método al hacer change en estado-
 		$scope.change_estados = function(){
 			$scope.mun = { 'id':'','name':''};
 			$scope.par = { 'id':'','name':''};
@@ -75,6 +76,7 @@ angular.module("AngularApp")
 			if($scope.validar_registro() == true)
 			{
 				//--
+				console.log($scope.fecha);
 				$scope.accion = "guardar";
 				$scope.mensaje = mensajesFactory;
 				$http.post("./modulos/usuarios/usuariosController.php",
@@ -85,28 +87,26 @@ angular.module("AngularApp")
 					'accion': $scope.accion,
 					'estado':$scope.esta.id,
 					'municipio':$scope.mun.id,
-					'parroquia':$scope.par.id
+					'parroquia':$scope.par.id,
+					'fecha':$scope.fecha
 				}).success(function(data, status, headers, config){
-						//console.log($scope.esta.id);
-						//console.log(data);
-						if(data["mensaje"]=="Registro Exitoso"){
-							//--Si el registro fue exitoso, registro a tipo_usuarios
-							$scope.registrar_tipoUs(data["id"]);
-							$scope.mensaje = mensajesFactory.mensajeSuccess();
-							$scope.mensaje.resultado = data['mensaje'];
-						}else
-						{
-							$scope.mensaje = mensajesFactory.mensajeError();
-							$scope.mensaje.resultado = data['mensaje'];
-						}
-						$scope.mensaje.opcion = true;
-						$scope.mensaje.errores = '';
-						//--
-						setTimeout(function(){
-							$scope.$apply(function(){
-								$scope.limpiar_campos();
-							});
-						},3000);
+					if(data["mensaje"]=="Registro Exitoso"){
+						//--Si el registro fue exitoso, registro a tipo_usuarios
+						$scope.registrar_tipoUs(data["id"]);
+						$scope.mensaje = mensajesFactory.mensajeSuccess();
+						$scope.mensaje.resultado = data['mensaje'];
+					}else{
+						$scope.mensaje = mensajesFactory.mensajeError();
+						$scope.mensaje.resultado = data['mensaje'];
+					}
+					$scope.mensaje.opcion = true;
+					$scope.mensaje.errores = '';
+					//--
+					setTimeout(function(){
+						$scope.$apply(function(){
+							$scope.limpiar_campos();
+						});
+					},3000);
 				}).error(function(data,status){
 						//$scope.mensaje_error();
 						console.log(data);
