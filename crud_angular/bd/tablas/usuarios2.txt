@@ -6,6 +6,7 @@ CREATE TABLE usuarios2
   estado character varying,
   municipio character varying,
   parroquia character varying,
+  fecha date,
   CONSTRAINT usuarios2_estado_fkey FOREIGN KEY (estado)
       REFERENCES tbl_estado (codigoestado) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
