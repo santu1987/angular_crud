@@ -1,4 +1,8 @@
 angular.module("AngularApp")
+//--Servicio para cargar imagenes...	
+	.service("upload",["$http","$q",function($http,$q){
+
+	}])
 //-- Para tipo de usuarios
 	.factory("tipoUsFactory",['$http', function($http){
 		return{

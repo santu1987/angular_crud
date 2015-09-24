@@ -1,4 +1,6 @@
 angular.module("AngularApp")
+//--------------------------------------------------------------------------------------------------------------
+//--Directiva de datepicker:
 	.directive('datepicker',function()
 	{
 		/*return{
@@ -57,7 +59,7 @@ angular.module("AngularApp")
 	        }
     	};
 		//-----------------------------------------------------------------------------------
-	});
+	})
 	/*.directive('holamundo', function() {
 	    var directiva = { }
 	    directiva.restrict = 'E';
@@ -80,3 +82,16 @@ angular.module("AngularApp")
 		}
 	};
 });*/
+//------------------------------------------------------------------------------------------------
+//--Directiva Subir archivos
+	.directive("uploaderModel",["$parse",function($parse){
+		return {
+			restrict : 'A',
+			link: function(scope, iElement, iAttrs){
+				iElement.on("change",function(e){
+					$parse(iAttrs.uploaderModel).assign(scope,iElement[0].files[0]);
+				});	
+			}
+		}
+	}])
+//------------------------------------------------------------------------------------------------

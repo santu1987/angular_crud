@@ -1,6 +1,6 @@
 angular.module("AngularApp")
 //----------------------------------------------------------------------------------------------------------------------------------------
-	.controller("MainController",function($scope,$http,ubicacionFactory,tipoUsFactory,mensajesFactory,objetosFactory){
+	.controller("MainController",function($scope,$http,ubicacionFactory,tipoUsFactory,mensajesFactory,objetosFactory,upload){
 		$scope.persona = {};
 		$scope.estados = [];
 		$scope.municipios = [];
@@ -119,6 +119,14 @@ angular.module("AngularApp")
 				});
 				//--
 			}	
+		}
+		$scope.subir= function (){
+			$scope.uploadFile();
+		}
+		//--Metodo para subir acrhivos
+		$scope.uploadFile = function(){
+			var file = $scope.file;
+			console.log(file);
 		}
 		//--Metodo para registrar tipo Usuario...
 		$scope.registrar_tipoUs = function(id){
