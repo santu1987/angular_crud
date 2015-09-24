@@ -16,7 +16,12 @@ angular.module("AngularApp")
 		$scope.respuesta = '';
 		$scope.tipoUs = [];
 		$scope.newObject = {};
-		$scope.fecha = "";
+		//-- Método al hacer change en la fecha
+		$scope.cargar_fecha = function(){
+		//--	
+			console.log("Ejem:"+$scope.fecha);
+		//--	
+		}
 		//-- Método al hacer change en estado-
 		$scope.change_estados = function(){
 			$scope.mun = { 'id':'','name':''};
@@ -71,12 +76,13 @@ angular.module("AngularApp")
 		$scope.carga_tipos_usuarios();
 		//------------------------------------------------------------------------------------------------
 		//--Metodo para realizar el registro en la bd...
+		
 		$scope.guardarPersona = function(){
 			$scope.pre_loader();
 			if($scope.validar_registro() == true)
 			{
 				//--
-				console.log($scope.fecha);
+				console.log($scope.persona.fecha);
 				$scope.accion = "guardar";
 				$scope.mensaje = mensajesFactory;
 				$http.post("./modulos/usuarios/usuariosController.php",
@@ -88,7 +94,7 @@ angular.module("AngularApp")
 					'estado':$scope.esta.id,
 					'municipio':$scope.mun.id,
 					'parroquia':$scope.par.id,
-					'fecha':$scope.fecha
+					'fecha':$scope.persona.fecha
 				}).success(function(data, status, headers, config){
 					if(data["mensaje"]=="Registro Exitoso"){
 						//--Si el registro fue exitoso, registro a tipo_usuarios

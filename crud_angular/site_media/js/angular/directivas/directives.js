@@ -1,24 +1,62 @@
 angular.module("AngularApp")
-	.directive('dirdatapicker',function()
+	.directive('datepicker',function()
 	{
-		return{
-			restrict: 'E',
-			scope : {
-						myDirectiveVar : '=',
-			},
-			template:"<div class='form-group'><div class='col-lg-12'><input class='form-control' id='fecha' ng-model='myDirectiveVar' name='fecha' onkeyup='this.value=formateafecha(this.value);' placeholder='Fecha: dd-mm-aaaa'></div></div>",
-			replace: true,
-			link: function($scope, elem, attr, ctrl){
-				$("#fecha").datetimepicker({ 
+		/*return{
+			restrict: 'A',
+			scope: false,
+ 		    require: "ngModel",
+			//template:"<div>Your name is : {{fecha}}</div>"+"<div class='form-group'><div class='col-lg-12'><input class='form-control' id='fecha' ng-model='fecha' ng-change='cargar_fecha()' name='fecha' onkeyup='this.value=formateafecha(this.value);' placeholder='Fecha: dd-mm-aaaa'></div></div>",
+			link: function(scope, elem, attr, ngModelCtrl){
+				//--
+				var updateModel = function (dateText) {
+                    // call $apply to bring stuff to angular model
+                    scope.$apply(function () {
+                        ngModelCtrl.$setViewValue(dateText);
+                    });
+                };
+				//--
+				//$("#fecha").datetimepicker({ 
+				var options = { 
 				    lang:'es',
 				    timepicker:false,
 				    format:'d-m-Y',
 				    formatDate:'Y-m-d',
 				    lang:'es',
-				});
-			}
-		};
-		
+				    onSelect:function (dateText, inst) {
+                    scope.$apply(function(scope){
+                        // Change binded variable
+                        ngModel.assign(scope, dateText);
+                    });
+               }
+				};
+                $("#fecha").datetimepicker(options);
+				/*scope.isOn = false;
+				elem.bind("blur", function()
+				{
+					console.log("Ejem:"+scope.fecha);
+
+				});*/
+			//}
+		//};
+		//----------------------------------------------------------------------------------
+		return {
+	        restrict: 'A',
+			//template:"<div>Your name is : {{fecha}}</div>"+"<div class='form-group'><div class='col-lg-12'><input class='form-control' id='fecha' ng-model='fecha' ng-change='cargar_fecha()' name='fecha' onkeyup='this.value=formateafecha(this.value);' placeholder='Fecha: dd-mm-aaaa'></div></div>",
+   	        require : 'ngModel',
+	        link : function (scope, element, attrs, ngModelCtrl) {
+	            $(function(){
+	                $("#fecha").datepicker({
+	                    dateFormat:'dd/mm/yy',
+	                    onSelect:function (date) {
+	                        scope.$apply(function () {
+	                            ngModelCtrl.$setViewValue(date);
+	                        });
+	                    }
+	                });
+	            });
+	        }
+    	};
+		//-----------------------------------------------------------------------------------
 	});
 	/*.directive('holamundo', function() {
 	    var directiva = { }
