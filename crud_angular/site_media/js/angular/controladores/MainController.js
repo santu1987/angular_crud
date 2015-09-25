@@ -16,6 +16,7 @@ angular.module("AngularApp")
 		$scope.respuesta = '';
 		$scope.tipoUs = [];
 		$scope.newObject = {};
+		$scope.name = '';
 		//-- Método al hacer change en la fecha
 		$scope.cargar_fecha = function(){
 		//--	
@@ -99,20 +100,18 @@ angular.module("AngularApp")
 					if(data["mensaje"]=="Registro Exitoso"){
 						//--Si el registro fue exitoso, registro a tipo_usuarios
 						$scope.registrar_tipoUs(data["id"]);
-						$scope.mensaje = mensajesFactory.mensajeSuccess();
-						$scope.mensaje.resultado = data['mensaje'];
+						//-------------------------------------------------------
+						//Para subir fotos
+						$scope.uploadFile();
+						//-------------------------------------------------------
 					}else{
 						$scope.mensaje = mensajesFactory.mensajeError();
 						$scope.mensaje.resultado = data['mensaje'];
+						$scope.mensaje.opcion = true;
+						$scope.limpiar_msgrror();	
 					}
-					$scope.mensaje.opcion = true;
 					$scope.mensaje.errores = '';
-					//--
-					setTimeout(function(){
-						$scope.$apply(function(){
-							$scope.limpiar_campos();
-						});
-					},3000);
+					
 				}).error(function(data,status){
 						//$scope.mensaje_error();
 						console.log(data);
@@ -121,12 +120,66 @@ angular.module("AngularApp")
 			}	
 		}
 		$scope.subir= function (){
-			$scope.uploadFile();
+			$scope.file="";
+			console.log($scope.file);
 		}
 		//--Metodo para subir acrhivos
 		$scope.uploadFile = function(){
 			var file = $scope.file;
+			var name = $scope.persona.cedula;
+			$scope.name = name;
 			console.log(file);
+			//-
+			upload.uploadFile(file,name).then(function(res){
+				console.log(res);
+				console.log(res.data);
+				if(res.data!="error_tipo_archivo"){
+					$scope.actualizar_persona_foto();
+				}else{
+					$scope.mensaje = mensajesFactory.mensajeError();
+					$scope.mensaje.resultado = "Error #5 : Error al subir tipo de archivo, solo puede subir imagenes .jpg";
+					$scope.mensaje.opcion = true;
+				}
+				//--------------------------------
+				$scope.limpiar_msgrror();	
+			});
+			//-
+		}
+		//--Metodo para actualizar archivos....
+		$scope.actualizar_persona_foto = function (){
+		//-----------------------------------------------------------------------	
+			$scope.accion = "actualizar_foto";
+			$scope.mensaje = mensajesFactory;
+			console.log($scope.accion+"-"+$scope.persona.cedula+"-"+$scope.name);
+			$http.post("./modulos/usuarios/usuariosController.php",
+			{
+				'accion': $scope.accion,
+				'cedula': $scope.persona.cedula,
+				'imagen': $scope.name
+			}).success(function(data, status, headers, config){
+				console.log("Devolvió esto:"+data);
+				if(data["mensaje"]=="Registro Exitoso"){
+					//--Si el registro fue exitoso, registro a tipo_usuarios
+					$scope.mensaje = mensajesFactory.mensajeSuccess();
+					$scope.mensaje.resultado = data['mensaje'];
+				}else{
+					$scope.mensaje = mensajesFactory.mensajeError();
+					$scope.mensaje.resultado = data['mensaje'];
+				}
+				$scope.mensaje.opcion = true;
+				$scope.mensaje.errores = '';
+				//--
+				setTimeout(function(){
+					$scope.$apply(function(){
+						$scope.limpiar_campos();
+					});
+				},3000);
+			}).error(function(data,status){
+					$scope.mensaje.resultado = data['mensaje'];
+					$scope.mensaje_error();
+					console.log(data);
+			});
+		//----------------------------------------------------------------------	
 		}
 		//--Metodo para registrar tipo Usuario...
 		$scope.registrar_tipoUs = function(id){
@@ -152,12 +205,21 @@ angular.module("AngularApp")
 			$scope.esta = "";
 			$scope.mun = "";
 			$scope.par = "";
+			$scope.file = "";
 
+		}
+		//-- Metodo que limpia los mensajes de error...
+		$scope.limpiar_msgrror =  function(){
+			setTimeout(function(){
+				$scope.$apply(function(){
+					$scope.mensaje.opcion = false;
+				});
+			},3000);
 		}
 		//-- Metodo para validar campos antes de guardar
 		$scope.validar_registro = function (){
 			var size_check = objetosFactory.size($scope.newObject);
-			console.log("Size:"+size_check);
+			console.log($scope.persona.file);
 			//--Nombres
 			if(($scope.persona.nombres == undefined)||($scope.persona.nombres == "")){
 				$scope.mensaje_temp("Debe incluir nombre");
@@ -182,6 +244,11 @@ angular.module("AngularApp")
 			if(size_check==0){
 				$scope.mensaje_temp("Debe seleccionar al menos un tipo de usuario");
 			}else
+			//--para el file
+			if(($scope.file == undefined)||($scope.file=="")){
+				$scope.mensaje_temp("Debe incluir una imagen en formato jpg");
+			}
+			else
 				return true;
 		}
 		//--Para mensajes temporales
@@ -202,7 +269,7 @@ angular.module("AngularApp")
 			$scope.mensaje.resultado = "Espere unos segundos mientras se ejecuta el proceso...";
 		}
 		//--
-})
+	})
 //------------------------------------------------------------------
 //---Ejemplo de como armas un select estático.....
 	/*.controller("selectController",['$scope',function($scope){

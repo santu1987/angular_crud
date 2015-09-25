@@ -1,8 +1,35 @@
 angular.module("AngularApp")
+//------------------------------------------------------------------------
 //--Servicio para cargar imagenes...	
-	.service("upload",["$http","$q",function($http,$q){
-
+	.service("upload",["$http","$q",function ($http, $q)
+	{
+		//----------------------------------------------------------------
+		this.uploadFile = function (file, name)
+		{
+			var deferred = $q.defer();
+			var formData = new FormData();
+			formData.append("name", name);
+			formData.append("file",file);
+			//--
+			console.log("formData-nombre:"+formData.name+"formData-file:"+formData.file);
+			//--
+			return $http.post("../crud_angular/core/server.php", formData,{
+				headers:{
+							"Content-type": undefined
+				},
+				transformRequest : formData
+			})
+			.success(function(res){
+				deferred.resolve(res);
+			})
+			.error(function(msg, code){
+				deferred.reject(msg);
+			})
+			return deferred.promise;
+		}
+		//-----------------------------------------------------------------
 	}])
+//-------------------------------------------------------------------------	
 //-- Para tipo de usuarios
 	.factory("tipoUsFactory",['$http', function($http){
 		return{

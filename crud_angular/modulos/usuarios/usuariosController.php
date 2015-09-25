@@ -27,13 +27,24 @@ if($post)
 			//$mensaje[0] = $recordset[0][0];
 			die(json_encode($mensaje));	
 			break;
-		case 'consultar';
+		case 'consultar':
 			$recordset = consultar_usuario($post);
 			die(json_encode($recordset));
 			break;	
 		case 'consultar_cuantos_son':
 			$recordset = cuantos_son($post);
-			die(json_encode($recordset));	
+			die(json_encode($recordset));
+			break;
+		case 'actualizar_foto':
+			$recordset = actualizar_foto_usuario($post);
+			if($recordset == "false"){
+				$mensaje["mensaje"] = "Error #05: No se realizó la operación";
+			}else
+			{
+				$mensaje["mensaje"] =  "Registro Exitoso";
+				$mensaje["id"] = $recordset[0][0];
+			}
+			die(json_encode($mensaje));		
 		default:
 			# code...
 			break;
@@ -69,6 +80,9 @@ function helper_userdata($data){
 		case "consultar_cuantos_son":
 			$user_data["nombres"] = pg_escape_string(strtoupper($data->nombres));
 			$user_data["cedula"] = $data->cedula;
+		case "actualizar_foto":
+			$user_data["cedula"] = $data->cedula;
+			$user_data["imagen"] = "site_media/img/archivos/".pg_escape_string($data->imagen).".jpg";	
 		default:
 			#code
 			break;		
@@ -80,6 +94,13 @@ function insertar_usuario($post){
 	$obj = new usuarioModel();
 	$resp = $obj->insert_data($post);
 	return $resp;
+}
+//--
+function actualizar_foto_usuario($post){
+	$obj = new usuarioModel();
+	$resp = $obj->actualizar_foto($post);
+	return $resp;
+	//return "nos has salvado...la garra";
 }
 //--
 function consultar_usuario($post){

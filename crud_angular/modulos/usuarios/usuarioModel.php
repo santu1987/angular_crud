@@ -25,6 +25,22 @@ class usuarioModel extends conex{
 			return $this->result; 	
 		}
 	}
+	//--Metodo para actualizar el campo foto de la tabla usuarios2
+	public function actualizar_foto($user_data = array()){
+		foreach ($user_data as $campo => $valor) {
+			$$campo = $valor;
+		}
+
+		$this->sql = "UPDATE
+							usuarios2
+					  SET 		
+							img ='".$imagen."'
+					  WHERE 
+					  		cedula='".$cedula."'";
+		$mensaje = "cedula:".$cedula."-Imagen:".$imagen;
+		$this->result = $this->execute($this->sql);
+		return $this->result;		
+	}
 	//-- Metodo para realizar la consulta de datos de usuarios
 	public function consult_data ($user_data = array()){
 		foreach ($user_data as $campo => $valor) {
