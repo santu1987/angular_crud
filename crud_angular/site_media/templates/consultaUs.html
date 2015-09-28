@@ -23,7 +23,7 @@
 	<table class="table table-striped">
 		<thead>
 			<tr class="tr">
-				<th class="th th-numeros">N#</th>
+				<th class="th th-imagen">Imagen</th>
 				<th class="th th-cedulas">C&eacute;dula</th>
 				<th class="th th-nombres">Nombres</th>
 				<th class="th th-estados">Estados</th>
@@ -31,9 +31,9 @@
 				<th class="th th-parroquias">Parroquias</th>
 			</tr>	
 		</thead>
-		<tbody class="tbody">
+		<tbody class="tbody" ng-click="consultar_modal()">
 			<tr ng-repeat="persona in personaCn" class="tr">
-				<td class="td th-numeros">{{persona.numero}}</td>
+				<td class="th th-imagen"><img src="./{{persona.imagen}}" class="img_per"></td>
 				<td class="td th-cedulas">{{persona.cedula}}</td>
 				<td class="td th-nombres">{{persona.nombres}}</td>
 				<td class="td th-estados">{{persona.nombre_estado}}</td>

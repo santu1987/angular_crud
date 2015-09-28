@@ -295,7 +295,8 @@ angular.module("AngularApp")
 						cedula : '',
 						estado:'',
 						municipio:'',
-						parroquia:''
+						parroquia:'',
+						imagen:'',
 				}
 		$scope.paginador = {
 						"paginador_siguiente":"",
@@ -342,7 +343,11 @@ angular.module("AngularApp")
 				$scope.mensaje.resultado = "Error #03: Proceso de consulta fallido";
 			});
 		}
-
+        //-------------------------------------------------------------------------------
+        $scope.consultar_modal = function(){
+			
+		}
+		//-------------------------------------------------------------------------------
 		$scope.armarPaginacion = function (){
 			$scope.accion = "consultar_cuantos_son";
 			$http.post("./modulos/usuarios/usuariosController.php",

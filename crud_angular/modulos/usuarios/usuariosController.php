@@ -109,8 +109,14 @@ function consultar_usuario($post){
 	$i = 0;
 	//--Recorro el arreglo para transformarlo en un json que pueda utilizar en el frontend
 	foreach ($resp as $campo) {
+		if($campo[9]=="")
+		{
+			$imagen = "site_media/img/archivos/us1.png";
+	 	}else{
+			$imagen = $campo[9];
+		}
 		$i++;
-		$personas[] = array('numero'=>$i,'id'=>$campo[2],'nombres'=>$campo[0], 'cedula'=>$campo[1], 'codigoestado'=>$campo[3], 'codigomunicipio' => $campo[4], 'codigoparroquia'=> $campo[5], 'nombre_estado'=>$campo[6], 'nombre_municipio'=>$campo[7], 'nombre_parroquia'=>$campo[8]);
+		$personas[] = array('numero'=>$i,'id'=>$campo[2],'nombres'=>$campo[0], 'cedula'=>$campo[1], 'codigoestado'=>$campo[3], 'codigomunicipio' => $campo[4], 'codigoparroquia'=> $campo[5], 'nombre_estado'=>$campo[6], 'nombre_municipio'=>$campo[7], 'nombre_parroquia'=>$campo[8], 'imagen'=>$imagen);
 	}
 	//--
 	return $personas;	

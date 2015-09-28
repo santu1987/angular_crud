@@ -78,7 +78,8 @@ class usuarioModel extends conex{
 							d.codigoparroquia,
 							b.nombre as nombrestado,
 							c.nombre as nombremunicipio,
-							d.nombre as nombreparroquia
+							d.nombre as nombreparroquia,
+							a.img 
 					  FROM 
 					  		usuarios2 a
 					  INNER JOIN 

@@ -203,6 +203,13 @@ ul, menu, dir {
   min-height: 200px;
   overflow-Y: scroll;
 }
+.img_per
+{
+  width: 60px;
+  height: 60px;
+  padding: 5px 3px 6px 2px;
+  float: left;
+}
 
 .tr 
 {
@@ -239,14 +246,14 @@ input[type="checkbox"] + label {
 }
 
 /*-----------/Clases para tablas adaptables/------------------*/
-.th-numeros{
+.th-numeros, .th-imagen{
   width:10%;
 }
 .th-cedulas{
   width:10%;
 }
 .th-nombres{
-  width:25%;  
+  width:15%;  
 }
 .th-estados{
   width:20%;
