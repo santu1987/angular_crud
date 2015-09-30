@@ -95,3 +95,23 @@ angular.module("AngularApp")
 		}
 	}])
 //------------------------------------------------------------------------------------------------
+.directive ('transcludeTrueExample', function(){
+	   return {
+	      restrict : 'A',
+	      transclude : true,
+	      template : '<div><p ng-transclude></p></div>'
+	   };
+	})
+//------------------------------------------------------------------------------------------------
+//-- Directiva para generar ventanas modales
+	.directive("modalMensajes",function (){
+		return {
+					restrict: 'E',
+					//transclude : true,
+					//replace : true,
+					//scope: { cuerpo_msj:'='},
+					scope: false, 
+					templateUrl: './site_media/templates/modal-mensaje-persona.html',
+				};
+	})
+//------------------------------------------------------------------------------------------------

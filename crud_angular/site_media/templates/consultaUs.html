@@ -1,4 +1,4 @@
-<div class="cuadro_div_tabla">
+<div class="cuadro_div_tabla" ng-controller='consultaUsController'>
 	<fieldset>
 		<legend>
 			<h2>Listado Personas</h2>		
@@ -31,8 +31,8 @@
 				<th class="th th-parroquias">Parroquias</th>
 			</tr>	
 		</thead>
-		<tbody class="tbody" ng-click="consultar_modal()">
-			<tr ng-repeat="persona in personaCn" class="tr">
+		<tbody class="tbody">
+			<tr ng-repeat="persona in personaCn" class="tr" ng-click="consultar_modal(persona.cedula,persona.nombres,persona.nombre_estado,persona.nombre_municipio,persona.nombre_parroquia)">
 				<td class="th th-imagen"><img src="./{{persona.imagen}}" class="img_per"></td>
 				<td class="td th-cedulas">{{persona.cedula}}</td>
 				<td class="td th-nombres">{{persona.nombres}}</td>
@@ -50,4 +50,7 @@
 		<span class='span_paginacion' id="fin_tabla" name="fin_tabla">{{paginador.fin_tabla}}</span><span> de </span><span class="span_paginacion">:</span>
 		<span class='span_paginacion' id="cuantos_tabla" name="cuantos_tabla">{{paginador.cuantos_tabla}}</span>
 	</div>
+	<!-- Seccion encabezada por el modal...-->
+  	<modal-mensajes></modal-mensajes>
+  	<!-- -->	
 </div>

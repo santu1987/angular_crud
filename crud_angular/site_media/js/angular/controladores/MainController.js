@@ -317,7 +317,16 @@ angular.module("AngularApp")
 								"cuantos_x_pagina":20,
 								"tipo": ""
 		}
-			
+
+		$scope.personaMd ={
+									nombres: '',
+									cedula : '',
+									estado: '',
+									municipio: '',
+									parroquia:''
+		}
+
+		$scope.cuerpo_msj = 'Here we cum';
 		$scope.consultarPersona = function(offset,limit){
 			$scope.accion = "consultar";
 			$http.post("./modulos/usuarios/usuariosController.php",
@@ -336,6 +345,7 @@ angular.module("AngularApp")
 				else
 				{
 					$scope.personaCn = data;
+					console.log(data);
 				}
 			})
 			.error(function(data,status){
@@ -344,8 +354,25 @@ angular.module("AngularApp")
 			});
 		}
         //-------------------------------------------------------------------------------
-        $scope.consultar_modal = function(){
+        $scope.consultar_modal = function(cedula,nombres,nombre_estado,nombre_municipio,nombre_parroquia){
+			//--
+			$scope.cuerpo_msj = 'Datos Usuarios';
+			$("#modal_mensaje").modal("show");
+			$scope.$watch(function(){
+			//-------------------------------------------------	
+				$scope.personaMd ={
+									nombres: cedula,
+									cedula : nombres,
+									estado: nombre_estado,
+									municipio:nombre_municipio,
+									parroquia:nombre_parroquia
+				};
+			//--------------------------------------------------	
+			})
 			
+			console.log($scope.cuerpo_msj);
+			console.log("Nombres:"+$scope.personaMd.nombres);
+			//---
 		}
 		//-------------------------------------------------------------------------------
 		$scope.armarPaginacion = function (){
