@@ -284,8 +284,14 @@ angular.module("AngularApp")
 	}]);*/
 //------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------
-	.controller("consultaUsController", function($scope, $http, mensajesFactory,paginacionFactory){
+	.controller("consultaUsController", function($scope, $http, mensajesFactory,paginacionFactory,ubicacionFactory){
+		$scope.estados = [];
+		$scope.municipios = [];
+		$scope.parroquias = [];
 		$scope.cuantos_son ='';
+		$scope.esta = { 'id':'', 'name':''};
+		$scope.mun = { 'id':'','name':''};
+		$scope.par = {'id':'','name':''};
 		$scope.filtro = {
 							"nombres":"",
 							"cedula":""
@@ -297,6 +303,7 @@ angular.module("AngularApp")
 						municipio:'',
 						parroquia:'',
 						imagen:'',
+						fecha:''
 				}
 		$scope.paginador = {
 						"paginador_siguiente":"",
@@ -323,7 +330,8 @@ angular.module("AngularApp")
 									cedula : '',
 									estado: '',
 									municipio: '',
-									parroquia:''
+									parroquia:'',
+									imagen:''
 		}
 
 		$scope.cuerpo_msj = 'Here we cum';
@@ -345,6 +353,7 @@ angular.module("AngularApp")
 				else
 				{
 					$scope.personaCn = data;
+					$scope.personaCn.fecha = '';
 					console.log(data);
 				}
 			})
@@ -354,24 +363,28 @@ angular.module("AngularApp")
 			});
 		}
         //-------------------------------------------------------------------------------
-        $scope.consultar_modal = function(cedula,nombres,nombre_estado,nombre_municipio,nombre_parroquia){
+        $scope.consultar_modal = function(cedula,nombres,codigoestado,codigomunicipio,codigoparroquia,fecha,imagen){
 			//--
 			$scope.cuerpo_msj = 'Datos Usuarios';
 			$("#modal_mensaje").modal("show");
 			$scope.$watch(function(){
-			//-------------------------------------------------	
+			//--------------------------------------------------------------------------	
 				$scope.personaMd ={
 									nombres: cedula,
 									cedula : nombres,
-									estado: nombre_estado,
-									municipio:nombre_municipio,
-									parroquia:nombre_parroquia
+									estado: codigoestado,
+									municipio:codigomunicipio,
+									parroquia:codigoparroquia,
+									fecha: cambiar_formato(fecha),
+									imagen: imagen
 				};
-			//--------------------------------------------------	
+			//--------------------------------------------------------------------------	
 			})
 			
 			console.log($scope.cuerpo_msj);
 			console.log("Nombres:"+$scope.personaMd.nombres);
+			//---
+			$scope.carga_de_estados();
 			//---
 		}
 		//-------------------------------------------------------------------------------
@@ -428,13 +441,61 @@ angular.module("AngularApp")
 			console.log($scope.vect_tabla.actual+"*"+$scope.vect_tabla.cuantos_x_pagina);
 			//--
 		}
-
+		//-------------------------------------
 		$scope.ir_tabla_filtros = function (){
 			$scope.ir_tabla(1);
 			$scope.armarPaginacion();
 		}
-	//--
+		//-------------------------------------
+		//----------------------------------------------------------------------------------------------
+		//-Bloque de ubicación controlador de consulta
+		//-- Método al hacer change en estado-
+		$scope.change_estados = function(){
+			$scope.mun = { 'id':'','name':''};
+			$scope.par = { 'id':'','name':''};
+			$scope.carga_de_municipios();
+		}
+		
+		//-- Método al hacer change en municipios
+		$scope.change_municipios = function(){
+			$scope.carga_de_parroquias();
+		}
+		
+		//--LLama al factory de cargar estados
+		$scope.carga_de_estados = function (){
+			ubicacionFactory.cargar_estados(function(data){
+				$scope.estados = data;	
+				$scope.esta.id = $scope.personaMd.estado;
+				console.log("Estados:xxxx"+$scope.esta.id);
+				$scope.change_estados();
+			});
+		}
+
+		//--Llama al factory que carga municipios
+		$scope.carga_de_municipios = function (){
+			ubicacionFactory.valor_id_estado($scope.esta.id);
+			ubicacionFactory.cargar_municipios(function(data){
+				$scope.municipios = data;
+				$scope.mun.id = $scope.personaMd.municipio;	
+				$scope.change_municipios();			
+			});
+		}
+		
+		//--Llama al factory que carga parroquias
+		$scope.carga_de_parroquias = function (){
+			if($scope.mun){
+				ubicacionFactory.valor_id_municipio($scope.mun.id);
+			}
+			ubicacionFactory.cargar_parroquias(function(data){
+				$scope.parroquias = data;
+				$scope.par.id = $scope.personaMd.parroquia;
+			});
+			
+		}
+		//----------------------------------------------------------------------------------------------
+	//-----------------------------
 	$scope.consultarPersona(0,20);
 	$scope.armarPaginacion();	
 	})
+	//----------------------------
 //----------------------------------------------------------------------------------------------------------------

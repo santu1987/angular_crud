@@ -32,7 +32,7 @@
 			</tr>	
 		</thead>
 		<tbody class="tbody">
-			<tr ng-repeat="persona in personaCn" class="tr" ng-click="consultar_modal(persona.cedula,persona.nombres,persona.nombre_estado,persona.nombre_municipio,persona.nombre_parroquia)">
+			<tr ng-repeat="persona in personaCn" class="tr" ng-click="consultar_modal(persona.nombres,persona.cedula,persona.codigoestado,persona.codigomunicipio,persona.codigoparroquia,persona.fecha,persona.imagen)">
 				<td class="th th-imagen"><img src="./{{persona.imagen}}" class="img_per"></td>
 				<td class="td th-cedulas">{{persona.cedula}}</td>
 				<td class="td th-nombres">{{persona.nombres}}</td>

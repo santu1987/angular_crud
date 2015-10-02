@@ -210,7 +210,24 @@ ul, menu, dir {
   padding: 5px 3px 6px 2px;
   float: left;
 }
-
+.img_per2
+{
+  width: 100px;
+  height: 100px;
+  padding: 5px 3px 6px 2px;
+  float: left;
+}
+.div_imagen
+{
+  width: 100px;
+  margin: 0 auto;
+}
+.label_imagen
+{
+  float: left;
+  width: 100%;
+  text-align: center;
+}
 .tr 
 {
   display: block;

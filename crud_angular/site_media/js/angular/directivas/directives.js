@@ -95,7 +95,7 @@ angular.module("AngularApp")
 		}
 	}])
 //------------------------------------------------------------------------------------------------
-.directive ('transcludeTrueExample', function(){
+	.directive ('transcludeTrueExample', function(){
 	   return {
 	      restrict : 'A',
 	      transclude : true,
@@ -110,7 +110,7 @@ angular.module("AngularApp")
 					//transclude : true,
 					//replace : true,
 					//scope: { cuerpo_msj:'='},
-					scope: false, 
+					scope: true, 
 					templateUrl: './site_media/templates/modal-mensaje-persona.html',
 				};
 	})
