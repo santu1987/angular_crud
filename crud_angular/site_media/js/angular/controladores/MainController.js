@@ -367,7 +367,6 @@ angular.module("AngularApp")
 			//--
 			$scope.cuerpo_msj = 'Datos Usuarios';
 			$("#modal_mensaje").modal("show");
-			$scope.$watch(function(){
 			//--------------------------------------------------------------------------	
 				$scope.personaMd ={
 									nombres: cedula,
@@ -379,7 +378,6 @@ angular.module("AngularApp")
 									imagen: imagen
 				};
 			//--------------------------------------------------------------------------	
-			})
 			
 			console.log($scope.cuerpo_msj);
 			console.log("Nombres:"+$scope.personaMd.nombres);
